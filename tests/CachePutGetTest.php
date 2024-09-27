@@ -63,7 +63,7 @@ class TstComplObjectWithDefaultFieldTypes
     public $field36;
 }
 
-final class CachePutGetTestCase extends TestCase
+final class CachePutGetTest extends TestCase
 {
     const CACHE_NAME = '__php_test_cache';
 
@@ -539,7 +539,7 @@ final class CachePutGetTestCase extends TestCase
             self::$cache->put($key, $value);
             $this->fail('put EnumItem must throw ClientException');
         } catch (ClientException $e) {
-            $this->assertContains('Enum item can not be serialized', $e->getMessage());
+            $this->assertStringContainsString('Enum item can not be serialized', $e->getMessage());
         } finally {
             self::$cache->removeAll();
         }

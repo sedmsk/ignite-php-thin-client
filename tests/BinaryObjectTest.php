@@ -23,7 +23,7 @@ use Apache\Ignite\Exception\ClientException;
 use Apache\Ignite\Data\BinaryObject;
 use Apache\Ignite\Data\Date;
 
-final class BinaryObjectTestCase extends TestCase
+final class BinaryObjectTest extends TestCase
 {
     const CACHE_NAME = '__php_test_cache';
 

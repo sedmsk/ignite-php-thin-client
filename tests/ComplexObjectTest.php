@@ -69,7 +69,7 @@ class Class3 {
     public $field_3_2;
 }
 
-final class ComplexObjectTestCase extends TestCase
+final class ComplexObjectTest extends TestCase
 {
     const CACHE_NAME = '__php_test_compl_obj_cache';
     

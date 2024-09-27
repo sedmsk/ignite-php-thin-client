@@ -20,7 +20,7 @@ namespace Apache\Ignite\Tests;
 
 class TestConfig
 {
-    public static $endpoints = ['127.0.0.1:10800'];
+    public static $endpoints = ['ignite.sedmsk:10800'];
     public static $debug = false;
     
     public static function init(): void

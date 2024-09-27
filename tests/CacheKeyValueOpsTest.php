@@ -24,7 +24,7 @@ use Apache\Ignite\Cache\CacheEntry;
 use Apache\Ignite\Cache\CacheConfiguration;
 use Apache\Ignite\Cache\CacheInterface;
 
-final class CacheKeyValueOpsTestCase extends TestCase
+final class CacheKeyValueOpsTest extends TestCase
 {
     const CACHE_NAME = '__php_test_cache';
 

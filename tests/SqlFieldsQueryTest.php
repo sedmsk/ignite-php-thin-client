@@ -24,7 +24,7 @@ use Apache\Ignite\Query\SqlFieldsQuery;
 use PHPUnit\Framework\TestCase;
 use Apache\Ignite\Type\ObjectType;
 
-final class SqlFieldsQueryTestCase extends TestCase
+final class SqlFieldsQueryTest extends TestCase
 {
     const CACHE_NAME = '__php_test_sql_fields_query';
     const ELEMENTS_NUMBER = 10;

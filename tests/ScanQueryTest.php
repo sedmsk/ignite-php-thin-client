@@ -24,7 +24,7 @@ use Apache\Ignite\Query\ScanQuery;
 use Apache\Ignite\Type\ObjectType;
 use Apache\Ignite\Cache\CacheEntry;
 
-final class ScanQueryTestCase extends TestCase
+final class ScanQueryTest extends TestCase
 {
     const CACHE_NAME = '__php_test_cache_scan_query';
     const CACHE_NAME2 = '__php_test_cache_scan_query_2';

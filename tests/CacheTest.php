@@ -28,7 +28,7 @@ use Apache\Ignite\Cache\CacheConfiguration;
 use Apache\Ignite\Exception\OperationException;
 use Apache\Ignite\Exception\ClientException;
 
-final class CacheTestCase extends TestCase
+final class CacheTest extends TestCase
 {
     const CACHE_NAME = '__php_test_cache';
     const CACHE_NAME2 = '__php_test_cache2';

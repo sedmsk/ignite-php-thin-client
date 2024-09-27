@@ -35,7 +35,7 @@ class SqlQueryTestClass
     public $field2;
 }
 
-final class SqlQueryTestCase extends TestCase
+final class SqlQueryTest extends TestCase
 {
     const CACHE_NAME = '__php_test_sql_query';
     const ELEMENTS_NUMBER = 10;

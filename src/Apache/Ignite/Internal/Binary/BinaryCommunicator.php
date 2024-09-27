@@ -292,7 +292,7 @@ class BinaryCommunicator
             }
             $hexValue .= $hex;
         }
-        $result = BigDecimal::ofUnscaledValue(BigInteger::parse($hexValue, 16), $scale >= 0 ? $scale : 0);
+        $result = BigDecimal::ofUnscaledValue(BigInteger::fromBase($hexValue, 16), $scale >= 0 ? $scale : 0);
         if ($isNegative) {
             $result = $result->negated();
         }
