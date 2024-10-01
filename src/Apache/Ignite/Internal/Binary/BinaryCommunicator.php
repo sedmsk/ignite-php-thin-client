@@ -335,10 +335,10 @@ class BinaryCommunicator
                 array_push($result, $element);
             }
         }
-        return $result;
+        return $isSet ? $result->toArray() : $result;
     }
 
-    private function readMap(MessageBuffer $buffer, MapObjectType $expectedMapType = null): Map
+    private function readMap(MessageBuffer $buffer, MapObjectType $expectedMapType = null): array
     {
         $size = $buffer->readInteger();
         // map sub-type
@@ -350,7 +350,7 @@ class BinaryCommunicator
             $value = $this->readObject($buffer, $expectedMapType ? $expectedMapType->getValueType() : null);
             $result->put($key, $value);
         }
-        return $result;
+        return $result->toArray();
     }
 
     private function readBinaryObject(MessageBuffer $buffer, ?ComplexObjectType $expectedType): object
