@@ -1,5 +1,5 @@
 {
-    "name": "apache/apache-ignite-client",
+    "name": "sd/apache-ignite-client",
     "type": "library",
     "description": "PHP Client for Apache Ignite",
     "keywords": ["apache", "ignite", "client"],
