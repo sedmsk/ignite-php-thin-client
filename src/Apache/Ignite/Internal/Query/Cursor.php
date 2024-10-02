@@ -53,17 +53,17 @@ class Cursor implements CursorInterface
         $this->index = 0;
     }
 
-    public function current()
+    public function current(): mixed
     {
         return $this->values[$this->valueIndex];
     }
     
-    public function key()
+    public function key(): mixed
     {
         return $this->index;
     }
     
-    public function next() 
+    public function next(): void
     {
         $this->valueIndex++;
         $this->index++;
