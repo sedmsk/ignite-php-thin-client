@@ -146,6 +146,11 @@ class ClientSocket
         $buffer = $request->getMessage();
         $this->logMessage($request->getId(), true, $buffer);
         $data = $buffer->getBuffer();
+
+        if (BinaryCommunicator::isDebug()) {
+            var_dump($buffer->getHexBuffer('Request: '));
+        }
+
         while (($length = strlen($data)) > 0) {
             $written = fwrite($this->socket, $data, $this->sendChunkSize);
             if ($length === $written) {
@@ -178,7 +183,12 @@ class ClientSocket
         $this->receive($buffer, BinaryUtils::getSize(ObjectType::INTEGER));
         // Response length
         $length = $buffer->readInteger();
-        $this->receive($buffer, $length + BinaryUtils::getSize(ObjectType::INTEGER));
+        $this->receive($buffer, $length);
+
+        if (BinaryCommunicator::isDebug()) {
+            var_dump($buffer->getHexBuffer('Response: '));
+        }
+
         if ($request->isHandshake()) {
             $this->processHandshake($buffer);
         } else {

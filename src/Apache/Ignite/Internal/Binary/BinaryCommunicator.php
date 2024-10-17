@@ -39,11 +39,18 @@ class BinaryCommunicator
 {
     private $socket;
     private $typeStorage;
+    private static $isDebug;
     
-    public function __construct(ClientFailoverSocket $socket)
+    public function __construct(ClientFailoverSocket $socket, bool $isDebug = false)
     {
         $this->socket = $socket;
         $this->typeStorage = new BinaryTypeStorage($this);
+        self::$isDebug = $isDebug;
+    }
+
+    public static function isDebug(): bool
+    {
+        return self::$isDebug;
     }
 
     public function send(int $opCode, ?callable $payloadWriter, callable $payloadReader = null): void

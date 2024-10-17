@@ -352,7 +352,7 @@ class BinaryUtils
     {
         $size = TypeInfo::getTypeInfo(ObjectType::LONG)->getSize();
         if ($isNegative) {
-            $value = BigInteger::parse(str_pad('1', $size * 2 + 1, '0'), 16)->minus($value);
+            $value = BigInteger::fromBase(str_pad('1', $size * 2 + 1, '0'), 16)->minus($value);
         }
         return str_pad($value->toBase(16), $size * 2, '0', STR_PAD_LEFT);
     }
