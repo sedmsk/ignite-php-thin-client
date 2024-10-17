@@ -27,6 +27,9 @@ use Apache\Ignite\Internal\Binary\MessageBuffer;
 use Apache\Ignite\Internal\Utils\ArgumentChecker;
 use Apache\Ignite\Internal\Binary\BinaryUtils;
 use Apache\Ignite\Internal\Binary\BinaryCommunicator;
+use Apache\Ignite\Transaction\TransactionConcurrencyModeEnum;
+use Apache\Ignite\Transaction\TransactionInterface;
+use Apache\Ignite\Transaction\TransactionIsolationLevelEnum;
 
 class Cache implements CacheInterface
 {
@@ -260,6 +263,14 @@ class Cache implements CacheInterface
                 $value = $query->getCursor($this->communicator, $payload, $this->keyType, $this->valueType);
             });
         return $value;
+    }
+
+    public function getTransaction(TransactionConcurrencyModeEnum $concurrencyMode = TransactionConcurrencyModeEnum::PESSIMISTIC,
+                                   TransactionIsolationLevelEnum  $isolationLevel = TransactionIsolationLevelEnum::REPEATABLE_READ,
+                                   int                            $timeout = 0,
+                                   ?string                        $label = null): TransactionInterface
+    {
+        return new Transaction($this->communicator, $concurrencyMode, $isolationLevel, $timeout, $label);
     }
 
     private function writeCacheInfo(MessageBuffer $payload): void
