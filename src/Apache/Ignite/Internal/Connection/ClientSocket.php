@@ -18,6 +18,7 @@
 
 namespace Apache\Ignite\Internal\Connection;
 
+use Apache\Ignite\Client;
 use Apache\Ignite\ClientConfiguration;
 use Apache\Ignite\Type\ObjectType;
 use Apache\Ignite\Internal\Utils\Logger;
@@ -147,7 +148,7 @@ class ClientSocket
         $this->logMessage($request->getId(), true, $buffer);
         $data = $buffer->getBuffer();
 
-        if (BinaryCommunicator::isDebug()) {
+        if (Client::isDebug()) {
             var_dump($buffer->getHexBuffer('Request: '));
         }
 
@@ -185,7 +186,7 @@ class ClientSocket
         $length = $buffer->readInteger();
         $this->receive($buffer, $length);
 
-        if (BinaryCommunicator::isDebug()) {
+        if (Client::isDebug()) {
             var_dump($buffer->getHexBuffer('Response: '));
         }
 
