@@ -129,20 +129,26 @@ class Transaction implements TransactionInterface
         return $this->label;
     }
 
-    public function start(): int
+    /** Starts the transaction. If the transaction is already started, does nothing
+     * @return int|null
+     */
+    public function start(): ?int
     {
-        $this->communicator->send(ClientOperation::TX_START,
-            function (MessageBuffer $payload) {
-                $payload->writeByte($this->concurrencyMode->value);
-                $payload->writeByte($this->isolationLevel->value);
-                $payload->writeLong($this->timeout);
-                $payload->writeTypedString($this->label);
-            }, function (MessageBuffer $payload) use (&$value) {
-                $value = $this->communicator->readTypedObject($payload, ObjectType::INTEGER);
-            });
-        $this->startTime = new DateTime();
-        $this->id = $value;
-        return $value;
+        if ($this->state === TransactionStateEnum::INACTIVE) {
+            $this->communicator->send(ClientOperation::TX_START,
+                function (MessageBuffer $payload) {
+                    $payload->writeByte($this->concurrencyMode->value);
+                    $payload->writeByte($this->isolationLevel->value);
+                    $payload->writeLong($this->timeout);
+                    $payload->writeTypedString($this->label);
+                }, function (MessageBuffer $payload) use (&$value) {
+                    $value = $this->communicator->readTypedObject($payload, ObjectType::INTEGER);
+                });
+            $this->startTime = new DateTime();
+            $this->id = $value;
+            return $value;
+        }
+        return null;
     }
 
     private function end(bool $isCommited): void

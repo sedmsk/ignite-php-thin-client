@@ -46,11 +46,6 @@ interface TransactionInterface
      */
     public function getLabel(): ?string;
 
-    /** Starts this transaction.
-     * @return int: transaction ID
-     */
-    public function start(): int;
-
     /** Commits this transaction.
      * @return void
      */

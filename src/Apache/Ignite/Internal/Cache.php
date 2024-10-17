@@ -38,7 +38,11 @@ class Cache implements CacheInterface
     private $keyType;
     private $valueType;
     private $communicator;
-    
+    private ?int $transactionId = null;
+
+    private const DEFAULT_MASK = 0x00;
+    private const TRANSACTIONS_MASK = 0x02;
+
     public function __construct(string $name, BinaryCommunicator $communicator)
     {
         $this->name = $name;
@@ -265,18 +269,25 @@ class Cache implements CacheInterface
         return $value;
     }
 
-    public function getTransaction(TransactionConcurrencyModeEnum $concurrencyMode = TransactionConcurrencyModeEnum::PESSIMISTIC,
-                                   TransactionIsolationLevelEnum  $isolationLevel = TransactionIsolationLevelEnum::REPEATABLE_READ,
-                                   int                            $timeout = 0,
-                                   ?string                        $label = null): TransactionInterface
+    public function startTransaction(TransactionConcurrencyModeEnum $concurrencyMode = TransactionConcurrencyModeEnum::PESSIMISTIC,
+                                     TransactionIsolationLevelEnum  $isolationLevel = TransactionIsolationLevelEnum::REPEATABLE_READ,
+                                     int                            $timeout = 0,
+                                     ?string                        $label = null): TransactionInterface
     {
-        return new Transaction($this->communicator, $concurrencyMode, $isolationLevel, $timeout, $label);
+        $transaction = new Transaction($this->communicator, $concurrencyMode, $isolationLevel, $timeout, $label);
+        $this->transactionId = $transaction->start();
+        return $transaction;
     }
 
     private function writeCacheInfo(MessageBuffer $payload): void
     {
         $payload->writeInteger($this->id);
-        $payload->writeByte(0);
+        if ($this->transactionId === null) {
+            $payload->writeByte(self::DEFAULT_MASK);
+        } else {
+            $payload->writeByte(self::TRANSACTIONS_MASK);
+            $payload->writeInteger($this->transactionId);
+        }
     }
 
     private function writeKeyValueOp(int $operation, $key, $value, callable $payloadReader = null): void
