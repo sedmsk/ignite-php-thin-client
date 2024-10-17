@@ -47,14 +47,21 @@ class Client
 {
     private $socket;
     private $communicator;
-    
+    private static bool $isDebug;
+
     /**
      * Public Client constructor.
      */
-    public function __construct()
+    public function __construct(bool $isDebug = false)
     {
         $this->socket = new ClientFailoverSocket();
         $this->communicator = new BinaryCommunicator($this->socket);
+        self::$isDebug = $isDebug;
+    }
+
+    public static function isDebug(): bool
+    {
+        return self::$isDebug;
     }
     
     /**

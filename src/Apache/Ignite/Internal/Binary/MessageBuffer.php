@@ -49,7 +49,18 @@ class MessageBuffer
         $this->length = 0;
         $this->ensureCapacity($capacity);
     }
-    
+
+    public function getHexBuffer(string $header = ''): string
+    {
+        $str = $header;
+        $payload = $this->getBuffer();
+        for ($i = 0, $len = strlen($payload); $i < $len; $i++) {
+            $str .= sprintf("%02X ", ord($payload[$i]));
+        }
+
+        return $str;
+    }
+
     public function getLength(): int
     {
         return $this->length;
@@ -139,6 +150,11 @@ class MessageBuffer
         $this->writeShort(mb_ord($value));
     }
 
+    public function WriteTypedString(?string $value): void
+    {
+        BinaryCommunicator::writeString($this, $value);
+    }
+
     public function writeString(string $value, bool $encode = true): void
     {
         if ($encode) {
@@ -196,9 +212,9 @@ class MessageBuffer
             $binValue = strrev($strValue);
             $isNegative = ord($binValue[0]) & 0x80;
             $hexValue = bin2hex($binValue);
-            $bigIntValue = BigInteger::parse($hexValue, 16);
+            $bigIntValue = BigInteger::fromBase($hexValue, 16);
             if ($isNegative) {
-                $bigIntValue = BigInteger::parse(str_pad('1', $size * 2 + 1, '0'), 16)->minus($bigIntValue);
+                $bigIntValue = BigInteger::fromBase(str_pad('1', $size * 2 + 1, '0'), 16)->minus($bigIntValue);
             }
             $value = $bigIntValue->toFloat();
             if ($isNegative) {
@@ -235,7 +251,7 @@ class MessageBuffer
         return $result;
     }
 
-    private function getNumberFormat(int $type, bool $signed): string
+    private function getNumberFormat(int $type, bool $signed): ?string
     {
         switch ($type) {
             case ObjectType::BYTE:
@@ -280,7 +296,7 @@ class MessageBuffer
         }
         $this->position += $length;
     }
-    
+
     private function ensureCapacity(int $size): void
     {
         if ($size <= 0) {
@@ -292,7 +308,7 @@ class MessageBuffer
             $newCapacity = $newCapacity * 2;
         }
         if ($capacity < $newCapacity) {
-            $this->buffer .= str_repeat('0', $newCapacity - $capacity);
+            $this->buffer .= str_repeat("\0", $newCapacity - $capacity);
         }
     }
 

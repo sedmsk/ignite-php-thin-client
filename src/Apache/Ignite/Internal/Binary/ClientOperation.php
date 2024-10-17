@@ -61,4 +61,7 @@ class ClientOperation
     // Binary Types
     const GET_BINARY_TYPE = 3002;
     const PUT_BINARY_TYPE = 3003;
+    // Transactions
+    const TX_START = 4000;
+    const TX_END = 4001;
 }

@@ -18,6 +18,7 @@
 
 namespace Apache\Ignite\Internal\Connection;
 
+use Apache\Ignite\Client;
 use Apache\Ignite\ClientConfiguration;
 use Apache\Ignite\Type\ObjectType;
 use Apache\Ignite\Internal\Utils\Logger;
@@ -146,6 +147,11 @@ class ClientSocket
         $buffer = $request->getMessage();
         $this->logMessage($request->getId(), true, $buffer);
         $data = $buffer->getBuffer();
+
+        if (Client::isDebug()) {
+            var_dump($buffer->getHexBuffer('Request: '));
+        }
+
         while (($length = strlen($data)) > 0) {
             $written = fwrite($this->socket, $data, $this->sendChunkSize);
             if ($length === $written) {
@@ -178,7 +184,12 @@ class ClientSocket
         $this->receive($buffer, BinaryUtils::getSize(ObjectType::INTEGER));
         // Response length
         $length = $buffer->readInteger();
-        $this->receive($buffer, $length + BinaryUtils::getSize(ObjectType::INTEGER));
+        $this->receive($buffer, $length);
+
+        if (Client::isDebug()) {
+            var_dump($buffer->getHexBuffer('Response: '));
+        }
+
         if ($request->isHandshake()) {
             $this->processHandshake($buffer);
         } else {

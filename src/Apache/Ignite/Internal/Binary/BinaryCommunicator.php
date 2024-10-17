@@ -39,7 +39,7 @@ class BinaryCommunicator
 {
     private $socket;
     private $typeStorage;
-    
+
     public function __construct(ClientFailoverSocket $socket)
     {
         $this->socket = $socket;
