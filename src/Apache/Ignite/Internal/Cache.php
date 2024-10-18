@@ -38,7 +38,7 @@ class Cache implements CacheInterface
     private $keyType;
     private $valueType;
     private $communicator;
-    private ?int $transactionId = null;
+    private ?TransactionInterface $currentTransaction = null;
 
     private const DEFAULT_MASK = 0x00;
     private const TRANSACTIONS_MASK = 0x02;
@@ -272,21 +272,34 @@ class Cache implements CacheInterface
     public function startTransaction(TransactionConcurrencyModeEnum $concurrencyMode = TransactionConcurrencyModeEnum::PESSIMISTIC,
                                      TransactionIsolationLevelEnum  $isolationLevel = TransactionIsolationLevelEnum::REPEATABLE_READ,
                                      int                            $timeout = 0,
-                                     ?string                        $label = null): TransactionInterface
+                                     ?string                        $label = null): void
     {
-        $transaction = new Transaction($this->communicator, $concurrencyMode, $isolationLevel, $timeout, $label);
-        $this->transactionId = $transaction->start();
-        return $transaction;
+
+        $this->currentTransaction = (new Transaction($this->communicator, $concurrencyMode, $isolationLevel, $timeout,
+                                                     $label));
+        $this->currentTransaction->start();
+    }
+
+    public function rollbackTransaction(): void
+    {
+        $this->currentTransaction->rollback();
+        $this->currentTransaction = null;
+    }
+
+    public function commitTransaction(): void
+    {
+        $this->currentTransaction->commit();
+        $this->currentTransaction = null;
     }
 
     private function writeCacheInfo(MessageBuffer $payload): void
     {
         $payload->writeInteger($this->id);
-        if ($this->transactionId === null) {
+        if ($this->currentTransaction === null) {
             $payload->writeByte(self::DEFAULT_MASK);
         } else {
             $payload->writeByte(self::TRANSACTIONS_MASK);
-            $payload->writeInteger($this->transactionId);
+            $payload->writeInteger($this->currentTransaction->getTransactionId());
         }
     }
 

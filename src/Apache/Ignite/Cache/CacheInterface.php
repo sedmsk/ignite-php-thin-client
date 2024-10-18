@@ -387,11 +387,25 @@ interface CacheInterface
      * @param TransactionIsolationLevelEnum $isolationLevel
      * @param int $timeout
      * @param string|null $label
-     * @return TransactionInterface
+     * @return void
      * @throws ClientException if error.
      */
     public function startTransaction(TransactionConcurrencyModeEnum $concurrencyMode = TransactionConcurrencyModeEnum::PESSIMISTIC,
                                      TransactionIsolationLevelEnum  $isolationLevel = TransactionIsolationLevelEnum::REPEATABLE_READ,
                                      int                            $timeout = 0,
-                                     ?string                        $label = null): TransactionInterface;
+                                     ?string                        $label = null): void;
+
+    /**
+     * Rolls back this transaction
+     * @return void
+     * @throws ClientException if error.
+     */
+    public function rollbackTransaction(): void;
+
+    /**
+     * Commits this transaction
+     * @return void
+     * @throws ClientException if error.
+     */
+    public function commitTransaction(): void;
 }
