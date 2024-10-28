@@ -213,9 +213,11 @@ class BinaryUtils
 
     public static function calcObjectType($object)
     {
-        if (is_integer($object)) {
+        if (is_int($object) && ($object >= -2147483648) && ($object <= 2147483647)) {
             return ObjectType::INTEGER;
-        } elseif (is_float($object)) {
+        } elseif (is_int($object) && ($object < -2147483648 || $object > 2147483647)) {
+            return ObjectType::LONG;
+        }  elseif (is_float($object)) {
             return ObjectType::DOUBLE;
         } elseif (is_string($object)) {
             return ObjectType::STRING;
