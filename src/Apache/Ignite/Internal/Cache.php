@@ -303,7 +303,7 @@ class Cache implements CacheInterface
         }
     }
 
-    private function writeKeyValueOp(int $operation, $key, $value, callable $payloadReader = null): void
+    private function writeKeyValueOp(int $operation, $key, $value, ?callable $payloadReader = null): void
     {
         ArgumentChecker::notNull($key, 'key');
         ArgumentChecker::notNull($value, 'value');
@@ -353,7 +353,7 @@ class Cache implements CacheInterface
         return $value;
     }
 
-    private function writeKeyOp(int $operation, $key, callable $payloadReader = null): void
+    private function writeKeyOp(int $operation, $key, ?callable $payloadReader = null): void
     {
         ArgumentChecker::notNull($key, 'key');
         $this->communicator->send(
@@ -401,7 +401,7 @@ class Cache implements CacheInterface
         return $result;
     }
 
-    private function writeKeysOp(int $operation, array $keys, callable $payloadReader = null): void
+    private function writeKeysOp(int $operation, array $keys, ?callable $payloadReader = null): void
     {
         ArgumentChecker::notEmpty($keys, 'keys');
         $this->communicator->send(

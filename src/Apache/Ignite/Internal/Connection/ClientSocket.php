@@ -136,7 +136,7 @@ class ClientSocket
         }
     }
 
-    public function sendRequest(int $opCode, ?callable $payloadWriter, callable $payloadReader = null): void
+    public function sendRequest(int $opCode, ?callable $payloadWriter, ?callable $payloadReader = null): void
     {
         $request = new Request($opCode, $payloadWriter, $payloadReader);
         $this->processRequest($request);

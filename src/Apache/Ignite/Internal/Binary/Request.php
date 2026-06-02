@@ -30,7 +30,7 @@ class Request
     
     private static $requestId = 0;
             
-    public function __construct(int $opCode, ?callable $payloadWriter, callable $payloadReader = null, bool $isHandshake = false)
+    public function __construct(int $opCode, ?callable $payloadWriter, ?callable $payloadReader = null, bool $isHandshake = false)
     {
         $this->id = Request::getRequestId();
         $this->opCode = $opCode;

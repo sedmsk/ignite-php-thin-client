@@ -50,7 +50,7 @@ class QueryField
      * @param string|null $name
      * @param string|null $typeName
      */
-    public function __construct(string $name = null, string $typeName = null)
+    public function __construct(?string $name = null, ?string $typeName = null)
     {
         $this->name = $name;
         $this->typeName = $typeName;

@@ -400,7 +400,7 @@ class BinaryUtils
         return $value;
     }
 
-    public static function internalError(string $message = null): void
+    public static function internalError(?string $message = null): void
     {
         throw new ClientException($message ? $message : 'Internal library error');
     }
@@ -415,7 +415,7 @@ class BinaryUtils
         throw new ClientException(sprintf('%s has no default type mapping', BinaryUtils::getTypeName($type)));
     }
 
-    public static function serializationError(bool $serialize, string $message = null): void
+    public static function serializationError(bool $serialize, ?string $message = null): void
     {
         $msg = $serialize ? 'Complex object can not be serialized' : 'Complex object can not be deserialized';
         if ($message) {
@@ -424,7 +424,7 @@ class BinaryUtils
         throw new ClientException($msg);
     }
 
-    public static function enumSerializationError(bool $serialize, string $message = null): void
+    public static function enumSerializationError(bool $serialize, ?string $message = null): void
     {
         $msg = $serialize ? 'Enum item can not be serialized' : 'Enum item can not be deserialized';
         if ($message) {

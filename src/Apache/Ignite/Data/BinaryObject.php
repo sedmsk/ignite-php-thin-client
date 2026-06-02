@@ -117,7 +117,7 @@ class BinaryObject
      * 
      * @throws ClientException if error.
      */
-    public static function fromObject(object $object, ComplexObjectType $complexObjectType = null): BinaryObject
+    public static function fromObject(object $object, ?ComplexObjectType $complexObjectType = null): BinaryObject
     {
         $typeBuilder = BinaryTypeBuilder::fromObject($object, $complexObjectType);
         $result = new BinaryObject($typeBuilder->getTypeName());

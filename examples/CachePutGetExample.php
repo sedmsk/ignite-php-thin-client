@@ -36,7 +36,7 @@ class Person
     public $lastName;
     public $salary;
             
-    public function __construct(string $firstName = null, string $lastName = null, float $salary = 0)
+    public function __construct(?string $firstName = null, string $lastName = null, float $salary = 0)
     {
         $this->id = Person::generateId();
         $this->firstName = $firstName;

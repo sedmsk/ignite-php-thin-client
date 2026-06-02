@@ -54,7 +54,7 @@ class QueryIndex
      *
      * @throws ClientException if error.
      */
-    public function __construct(string $name = null, int $type = self::TYPE_SORTED)
+    public function __construct(?string $name = null, int $type = self::TYPE_SORTED)
     {
         $this->name = $name;
         $this->setType($type);

@@ -39,7 +39,7 @@ class CacheKeyConfiguration
      * @param string|null $typeName
      * @param string|null $affinityKeyFieldName
      */
-    public function __construct(string $typeName = null, string $affinityKeyFieldName = null)
+    public function __construct(?string $typeName = null, ?string $affinityKeyFieldName = null)
     {
         $this->typeName = $typeName;
         $this->affinityKeyFieldName = $affinityKeyFieldName;

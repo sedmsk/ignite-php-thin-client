@@ -54,7 +54,7 @@ class ClientFailoverSocket
         $this->failoverConnect();
     }
 
-    public function send(int $opCode, ?callable $payloadWriter, callable $payloadReader = null): void
+    public function send(int $opCode, ?callable $payloadWriter, ?callable $payloadReader = null): void
     {
         if ($this->reconnectRequired) {
             $this->failoverConnect();

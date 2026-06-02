@@ -24,7 +24,7 @@ class BinaryField
     private $id;
     private $typeCode;
     
-    public function __construct(string $name = null, int $typeCode = 0)
+    public function __construct(?string $name = null, int $typeCode = 0)
     {
         $this->name = $name;
         $this->id = BinaryField::calculateId($name);

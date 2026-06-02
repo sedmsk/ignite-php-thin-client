@@ -64,7 +64,7 @@ class BinaryTypeBuilder
         return $result;
     }
 
-    public static function fromObject(object $object, ComplexObjectType $complexObjectType = null): BinaryTypeBuilder
+    public static function fromObject(object $object, ?ComplexObjectType $complexObjectType = null): BinaryTypeBuilder
     {
         if ($complexObjectType) {
             return BinaryTypeBuilder::fromComplexObjectType($complexObjectType, $object);

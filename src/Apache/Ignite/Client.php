@@ -100,7 +100,7 @@ class Client
      */
     public function createCache(
             string $name,
-            CacheConfiguration $cacheConfig = null): CacheInterface
+            ?CacheConfiguration $cacheConfig = null): CacheInterface
     {
         ArgumentChecker::notEmpty($name, 'name');
         $this->communicator->send(
@@ -128,7 +128,7 @@ class Client
      */
     public function getOrCreateCache(
             string $name,
-            CacheConfiguration $cacheConfig = null): CacheInterface
+            ?CacheConfiguration $cacheConfig = null): CacheInterface
     {
         ArgumentChecker::notEmpty($name, 'name');
         $this->communicator->send(
@@ -239,7 +239,7 @@ class Client
     private function writeCacheNameOrConfig(
             MessageBuffer $buffer,
             string $name,
-            CacheConfiguration $cacheConfig = null): void
+            ?CacheConfiguration $cacheConfig = null): void
     {
         if ($cacheConfig) {
             $cacheConfig->write($this->communicator, $buffer, $name);
